@@ -3,8 +3,12 @@
 	"version": "1.0.0",
 	"description": "{{project-name}}",
 	"private": "true",
+	"bin": {
+		"{{project-name}}": "./bin/index.js"
+	},
 	"typescript-template": {
 		"base": "1.0.0",
+		"cli": "1.0.0",
 		"jasmine": "1.0.0",
 		"library": "1.0.0"
 	},
