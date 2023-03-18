@@ -1,10 +1,10 @@
 {
-	"name": "{{project-name}}",
+	"name": "riao-cli",
 	"version": "1.0.0",
-	"description": "{{project-name}}",
+	"description": "riao-cli",
 	"private": "true",
 	"bin": {
-		"{{project-name}}": "./bin/index.js"
+		"riao-cli": "./bin/index.js"
 	},
 	"typescript-template": {
 		"base": "1.0.0",
@@ -46,14 +46,14 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/{{project-org}}/{{project-name}}.git"
+		"url": "git+https://github.com/riao-cli/riao-cli.git"
 	},
-	"author": "{{project-org}}",
+	"author": "riao-cli",
 	"license": "MIT",
 	"bugs": {
-		"url": "https://github.com/{{project-org}}/{{project-name}}/issues"
+		"url": "https://github.com/riao-cli/riao-cli/issues"
 	},
-	"homepage": "https://github.com/{{project-org}}/{{project-name}}#readme",
+	"homepage": "https://github.com/riao-cli/riao-cli#readme",
 	"keywords": [],
 	"dependencies": {
 		"ts-commands": "^1.0.0"
