@@ -54,5 +54,8 @@
 		"url": "https://github.com/{{project-org}}/{{project-name}}/issues"
 	},
 	"homepage": "https://github.com/{{project-org}}/{{project-name}}#readme",
-	"keywords": []
+	"keywords": [],
+	"dependencies": {
+		"ts-commands": "^1.0.0"
+	}
 }
