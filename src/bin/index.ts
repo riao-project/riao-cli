@@ -8,4 +8,5 @@ import { MigrationRunCommand } from './migration-run-command';
 registerCommands({
 	name: 'riao-cli',
 	commands: [MigrationCreateCommand, MigrationRunCommand],
+	forceExit: true,
 });
