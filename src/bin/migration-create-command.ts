@@ -1,4 +1,5 @@
 import { writeFileSync } from 'fs';
+import { nameOption } from 'src/options';
 import { Command, OptionType } from 'ts-commands';
 import { nameMigration } from '../name-migration';
 
@@ -10,12 +11,7 @@ export class MigrationCreateCommand extends Command {
 	signature = 'migration:create [name]';
 	description = 'Create a new migration file';
 
-	positional = [
-		{
-			key: 'name',
-			type: OptionType.string,
-		},
-	];
+	positional = [nameOption];
 
 	options = [];
 
