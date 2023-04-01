@@ -1,10 +1,10 @@
 /**
- * Create a migration class & filename
+ * Create a class & filename
  *
  * @param name Input name, in either kebab-case or pascal-case
- * @return Returns the migration file & class name
+ * @return Returns the file & class name
  */
-export function nameMigration(name: string) {
+export function nameClassAndFile(name: string) {
 	let kebabCase: string;
 	let pascalCase: string;
 
@@ -38,7 +38,7 @@ export function nameMigration(name: string) {
 	}
 
 	return {
-		fileName: `${Date.now()}-${kebabCase}.ts`,
+		fileName: `${kebabCase}.ts`,
 		className: pascalCase,
 	};
 }

@@ -3,7 +3,7 @@ import { writeFileSync } from 'fs';
 import { getDatabasePath } from 'riao-dbal/src/database';
 import { databaseOption, nameOption } from 'src/options';
 import { Command, OptionType } from 'ts-commands';
-import { nameMigration } from '../name-migration';
+import { nameClassAndFile } from '../name-class-and-file';
 
 interface Args {
 	name: string;
@@ -19,7 +19,7 @@ export class MigrationCreateCommand extends Command {
 	options = [databaseOption];
 
 	async handle(args: Args) {
-		const { fileName, className } = nameMigration(args.name);
+		const { fileName, className } = nameClassAndFile(args.name);
 
 		const file = [
 			'import { Migration } from \'riao-dbal\';',
@@ -37,7 +37,11 @@ export class MigrationCreateCommand extends Command {
 		];
 
 		const databaseDir = getDatabasePath();
-		const path = joinPath(databaseDir, args.database, fileName);
+		const path = joinPath(
+			databaseDir,
+			args.database,
+			`${Date.now()}-${fileName}`
+		);
 
 		writeFileSync(path, file.join('\n'));
 	}
