@@ -34,7 +34,9 @@ export function nameClassAndFile(name: string) {
 			.toLocaleLowerCase();
 
 		// Pascal case
-		pascalCase = name;
+		pascalCase = name
+			// Capitalize first letter
+			.replace(/^([a-z])/, (g) => g.toLocaleUpperCase());
 	}
 
 	return {
