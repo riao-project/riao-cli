@@ -8,7 +8,7 @@ interface Args {
 
 export class SchemaBuildCommand extends Command {
 	signature = 'schema:build';
-	description = 'Run seeds';
+	description = 'Build schema';
 
 	positional = [];
 
