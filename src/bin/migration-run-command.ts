@@ -1,6 +1,6 @@
 import { Command, OptionType } from 'ts-commands';
-import { MigrationRunner } from 'riao-dbal/src/migration';
-import { loadDatabase } from 'riao-dbal/src/database';
+import { MigrationRunner } from '@riao/dbal/migration';
+import { loadDatabase } from '@riao/dbal/database';
 import { databaseOption, directionOption, stepsOption } from '../options';
 
 interface Args {
@@ -21,11 +21,6 @@ export class MigrationRunCommand extends Command {
 		const db = await loadDatabase(null, args.database);
 		const runner = new MigrationRunner(db);
 
-		await runner.run(
-			undefined,
-			undefined,
-			args.direction,
-			args.steps,
-		);
+		await runner.run(undefined, undefined, args.direction, args.steps);
 	}
 }

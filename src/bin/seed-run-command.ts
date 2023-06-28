@@ -1,6 +1,6 @@
 import { Command, OptionType } from 'ts-commands';
-import { SeedRunner } from 'riao-dbal/src/seed';
-import { loadDatabase } from 'riao-dbal/src/database';
+import { SeedRunner } from '@riao/dbal/seed';
+import { loadDatabase } from '@riao/dbal/database';
 import {
 	databaseOption,
 	directionOption,

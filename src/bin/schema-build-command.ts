@@ -1,5 +1,5 @@
 import { Command } from 'ts-commands';
-import { loadDatabase } from 'riao-dbal/src/database';
+import { loadDatabase } from '@riao/dbal/database';
 import { databaseOption } from '../options';
 
 interface Args {

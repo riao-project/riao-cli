@@ -1,6 +1,6 @@
 import { join as joinPath } from 'path';
 import { writeFileSync } from 'fs';
-import { getDatabasePath, loadDatabase } from 'riao-dbal/src/database';
+import { getDatabasePath, loadDatabase } from '@riao/dbal/database';
 import { databaseOption, nameOption } from '../options';
 import { Command, OptionType } from 'ts-commands';
 import { nameClassAndFile } from '../name-class-and-file';
