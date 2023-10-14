@@ -22,7 +22,7 @@ export class SeedCreateCommand extends Command {
 		const { fileName, className } = nameClassAndFile(args.name);
 
 		const file = [
-			'import { Seed } from \'riao-dbal/seed\';',
+			'import { Seed } from \'@riao/dbal/seed\';',
 			'',
 			`export default class ${className} extends Seed {`,
 			'\tpublic async up(): Promise<void> {',

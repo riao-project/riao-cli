@@ -22,7 +22,7 @@ export class MigrationCreateCommand extends Command {
 		const { fileName, className } = nameClassAndFile(args.name);
 
 		const file = [
-			'import { Migration } from \'riao-dbal\';',
+			'import { Migration } from \'@riao/dbal\';',
 			'',
 			`export default class ${className} extends Migration {`,
 			'\tasync up() {',
