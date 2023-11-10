@@ -3,7 +3,7 @@ import { CommandOptions, OptionType } from 'ts-commands';
 interface DbDriverPropertiesInterface {
 	package: string;
 	className: string;
-	port: number;
+	port?: number;
 }
 
 export const dbDriverProperties: {
@@ -48,6 +48,10 @@ export const dbDriverProperties: {
 		package: '@riao/postgres',
 		className: 'DatabasePostgres15',
 		port: 5432,
+	},
+	sqlite: {
+		package: '@riao/sqlite',
+		className: 'DatabaseSqlite',
 	},
 };
 

@@ -1,6 +1,6 @@
 {
 	"name": "@riao/cli",
-	"version": "1.0.2",
+	"version": "2.0.0",
 	"description": "riao cli",
 	"private": "true",
 	"bin": {
@@ -24,6 +24,10 @@
 		"lint:prod": "npm run lint -- --config=.eslintrc.prod.json",
 		"script": "ts-node scripts",
 		"publish": "npm run script -- publish"
+	},
+	"dependencies": {
+		"@riao/dbal": "^2.0.0",
+		"ts-commands": "^1.1.0"
 	},
 	"devDependencies": {
 		"@istanbuljs/nyc-config-typescript": "^1.0.2",
@@ -54,9 +58,5 @@
 		"url": "https://github.com/riao-project/riao-cli/issues"
 	},
 	"homepage": "https://github.com/riao-project/riao-cli#readme",
-	"keywords": [],
-	"dependencies": {
-		"@riao/dbal": "^1.0.1",
-		"ts-commands": "^1.1.0"
-	}
+	"keywords": []
 }
