@@ -1,6 +1,6 @@
 {
 	"name": "@riao/cli",
-	"version": "2.0.0",
+	"version": "3.0.0",
 	"description": "riao cli",
 	"private": "true",
 	"bin": {
@@ -26,7 +26,7 @@
 		"publish": "npm run script -- publish"
 	},
 	"dependencies": {
-		"@riao/dbal": "^2.0.0",
+		"@riao/dbal": "^3.0.0",
 		"ts-commands": "^1.1.0"
 	},
 	"devDependencies": {
@@ -47,6 +47,9 @@
 		"ts-tiny-log": "^1.1.1",
 		"typedoc": "^0.23.21",
 		"typescript": "^4.9.3"
+	},
+	"peerDependencies": {
+		"@riao/dbal": "3.0.0"
 	},
 	"repository": {
 		"type": "git",
