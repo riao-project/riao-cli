@@ -1,18 +1,19 @@
 {
 	"compileOnSave": false,
 	"compilerOptions": {
-		"baseUrl": "./",
 		"outDir": "./dist",
+		"skipLibCheck": true,
+		"esModuleInterop": true,
 		"sourceMap": true,
-		"declaration": true,
+		"declaration": false,
 		"module": "commonjs",
 		"moduleResolution": "node",
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
-		"target": "es6",
+		"importHelpers": true,
+		"target": "ES2022",
 		"types": ["node"],
-		"typeRoots": [],
-		"lib": ["es2020"]
+		"lib": ["ES2022"]
 	},
 	"exclude": ["./dist/"],
 	"include": ["./scripts", "./src/", "./test/"]
