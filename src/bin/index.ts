@@ -1,8 +1,7 @@
 #! /usr/bin/env node
 
-import { registerCommands } from 'ts-commands';
+import { CommandDispatcher } from 'ts-commands';
 
-registerCommands({
-	name: '{{project-name}}',
+new CommandDispatcher({
 	commands: [],
-});
+}).run();
