@@ -49,7 +49,7 @@ export class DatabaseCreateCommand extends Command {
 			`import { ${baseClassName} } from \'${baseClassPackage}\';`,
 			'',
 			`export default class ${className} extends ${baseClassName} {`,
-			`\tname = '${folderName}';`,
+			`\toverride name = '${folderName}';`,
 			'}',
 			'',
 			`export const ${constName} = new ${className}();`,
