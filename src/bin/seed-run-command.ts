@@ -1,4 +1,4 @@
-import { Command, OptionType } from 'ts-commands';
+import { Command, ParsedArguments } from 'ts-commands';
 import { SeedRunner } from '@riao/dbal/seed';
 import { loadDatabase } from '@riao/dbal/database';
 import {
@@ -8,7 +8,7 @@ import {
 	stepsOption,
 } from '../options';
 
-interface Args {
+interface Args extends ParsedArguments {
 	database: string;
 	direction: 'up' | 'down';
 	seed: string;
@@ -16,15 +16,20 @@ interface Args {
 }
 
 export class SeedRunCommand extends Command {
-	signature = 'seed:run';
-	description = 'Run seeds';
+	override key = 'seed:run';
+	override description = 'Run seeds';
 
-	positional = [];
+	override positional = [];
 
-	options = [databaseOption, directionOption, seedOption, stepsOption];
+	override options = [
+		databaseOption,
+		directionOption,
+		seedOption,
+		stepsOption
+	];
 
-	async handle(args: Args) {
-		const db = await loadDatabase(null, args.database);
+	override async handle(args: Args) {
+		const db = await loadDatabase(undefined, args.database);
 		const runner = new SeedRunner(db);
 
 		await runner.run(

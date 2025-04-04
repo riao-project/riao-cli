@@ -2,25 +2,25 @@ import { join as joinPath } from 'path';
 import { existsSync, mkdirSync, writeFileSync } from 'fs';
 import { getDatabasePath, loadDatabase } from '@riao/dbal/database';
 import { databaseOption, nameOption } from '../options';
-import { Command, OptionType } from 'ts-commands';
+import { Command, ParsedArguments } from 'ts-commands';
 import { nameClassAndFile } from '../name-class-and-file';
 import { DbDrivers, dbDriverProperties, dbDriverOption } from '../options';
 import { execSync } from 'child_process';
 
-interface Args {
+interface Args extends ParsedArguments {
 	name: string;
 	driver: DbDrivers;
 }
 
 export class DatabaseCreateCommand extends Command {
-	signature = 'db:create [name]';
-	description = 'Create a new database';
+	override key = 'db:create';
+	override description = 'Create a new database';
 
-	positional = [{ ...nameOption, default: 'main' }];
+	override positional = [{ ...nameOption, default: 'main' }];
 
-	options = [dbDriverOption];
+	override options = [dbDriverOption];
 
-	async handle(args: Args) {
+	override async handle(args: Args) {
 		let { fileName, className } = nameClassAndFile(args.name);
 		const folderName = fileName.replace('.ts', '');
 		const constName =

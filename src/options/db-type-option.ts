@@ -1,4 +1,4 @@
-import { CommandOptions, OptionType } from 'ts-commands';
+import { CommandOption, OptionType } from 'ts-commands';
 
 interface DbDriverPropertiesInterface {
 	package: string;
@@ -58,7 +58,7 @@ export const dbDriverProperties: {
 export type DbDrivers = keyof typeof dbDriverProperties;
 export const dbDriverKeys = Object.keys(dbDriverProperties);
 
-export const dbDriverOption: CommandOptions = {
+export const dbDriverOption: CommandOption = {
 	key: 'driver',
 	type: OptionType.string,
 	default: 'mysql8',
