@@ -1,6 +1,6 @@
-import { CommandOptions, OptionType } from 'ts-commands';
+import { CommandOption, OptionType } from 'ts-commands';
 
-export const databaseOption: CommandOptions = {
+export const databaseOption: CommandOption = {
 	key: 'database',
 	type: OptionType.string,
 	default: 'main',

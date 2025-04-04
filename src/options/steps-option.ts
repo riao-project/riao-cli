@@ -1,6 +1,6 @@
-import { CommandOptions, OptionType } from 'ts-commands';
+import { CommandOption, OptionType } from 'ts-commands';
 
-export const stepsOption: CommandOptions = {
+export const stepsOption: CommandOption = {
 	key: 'steps',
 	type: OptionType.number,
 	default: -1,

@@ -1,6 +1,6 @@
-import { CommandOptions, OptionType } from 'ts-commands';
+import { CommandOption, OptionType } from 'ts-commands';
 
-export const directionOption: CommandOptions = {
+export const directionOption: CommandOption = {
 	key: 'direction',
 	type: OptionType.string,
 	default: 'up',

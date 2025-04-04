@@ -1,6 +1,6 @@
 #! /usr/bin/env ts-node
 
-import { registerCommands } from 'ts-commands';
+import { CommandDispatcher } from 'ts-commands';
 
 import { DatabaseCreateCommand } from './database-create-command';
 import { MigrationCreateCommand } from './migration-create-command';
@@ -9,8 +9,7 @@ import { SchemaBuildCommand } from './schema-build-command';
 import { SeedCreateCommand } from './seed-create-command';
 import { SeedRunCommand } from './seed-run-command';
 
-registerCommands({
-	name: 'riao-cli',
+new CommandDispatcher({
 	commands: [
 		DatabaseCreateCommand,
 		MigrationCreateCommand,
@@ -19,5 +18,4 @@ registerCommands({
 		SeedCreateCommand,
 		SeedRunCommand,
 	],
-	forceExit: true,
-});
+}).run();

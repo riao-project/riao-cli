@@ -1,6 +1,6 @@
-import { CommandOptions, OptionType } from 'ts-commands';
+import { CommandOption, OptionType } from 'ts-commands';
 
-export const nameOption: CommandOptions = {
+export const nameOption: CommandOption = {
 	key: 'name',
 	type: OptionType.string,
 };

@@ -1,21 +1,21 @@
-import { Command } from 'ts-commands';
+import { Command, ParsedArguments } from 'ts-commands';
 import { loadDatabase } from '@riao/dbal/database';
 import { databaseOption } from '../options';
 
-interface Args {
+interface Args extends ParsedArguments {
 	database: string;
 }
 
 export class SchemaBuildCommand extends Command {
-	signature = 'schema:build';
-	description = 'Build schema';
+	override key = 'schema:build';
+	override description = 'Build schema';
 
-	positional = [];
+	override positional = [];
 
-	options = [databaseOption];
+	override options = [databaseOption];
 
-	async handle(args: Args) {
-		const db = await loadDatabase(null, args.database);
+	override async handle(args: Args) {
+		const db = await loadDatabase(undefined, args.database);
 		await db.buildSchema();
 	}
 }
