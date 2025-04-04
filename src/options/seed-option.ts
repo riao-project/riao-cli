@@ -1,6 +1,6 @@
-import { CommandOptions, OptionType } from 'ts-commands';
+import { CommandOption, OptionType } from 'ts-commands';
 
-export const seedOption: CommandOptions = {
+export const seedOption: CommandOption = {
 	key: 'seed',
 	type: OptionType.string,
 };

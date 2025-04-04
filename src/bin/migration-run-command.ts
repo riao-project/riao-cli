@@ -1,24 +1,24 @@
-import { Command, OptionType } from 'ts-commands';
+import { Command, ParsedArguments } from 'ts-commands';
 import { MigrationRunner } from '@riao/dbal/migration';
 import { loadDatabase } from '@riao/dbal/database';
 import { databaseOption, directionOption, stepsOption } from '../options';
 
-interface Args {
+interface Args extends ParsedArguments {
 	database: string;
 	direction: 'up' | 'down';
 	steps: number;
 }
 
 export class MigrationRunCommand extends Command {
-	signature = 'migration:run';
-	description = 'Run migrations';
+	override key = 'migration:run';
+	override description = 'Run migrations';
 
-	positional = [];
+	override positional = [];
 
-	options = [databaseOption, directionOption, stepsOption];
+	override options = [databaseOption, directionOption, stepsOption];
 
-	async handle(args: Args) {
-		const db = await loadDatabase(null, args.database);
+	override async handle(args: Args) {
+		const db = await loadDatabase(undefined, args.database);
 		const runner = new MigrationRunner(db);
 
 		await runner.run(undefined, undefined, args.direction, args.steps);
