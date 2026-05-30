@@ -1,3 +1,5 @@
+import { toPascalCase } from './utils/string-utils/to-pascal-case';
+
 /**
  * Create a class & filename
  *
@@ -6,20 +8,10 @@
  */
 export function nameClassAndFile(name: string) {
 	let kebabCase: string;
-	let pascalCase: string;
 
 	if (name.includes('-')) {
 		// Kebab case
 		kebabCase = name;
-
-		// Pascal case
-		pascalCase = name
-			// Convert to pascal case
-			.replace(/-([a-z])/gi, (g) => g[1].toLocaleUpperCase())
-			// Remove any remaining hyphens
-			.replace(/-/g, '')
-			// Capitalize first letter
-			.replace(/^([a-z])/, (g) => g.toLocaleUpperCase());
 	}
 	else {
 		const seperateByDash = (g: string) => g[0] + '-' + g[1];
@@ -32,15 +24,10 @@ export function nameClassAndFile(name: string) {
 			.replace(/([0-9][a-zA-Z])/g, seperateByDash)
 			// To lowercase
 			.toLocaleLowerCase();
-
-		// Pascal case
-		pascalCase = name
-			// Capitalize first letter
-			.replace(/^([a-z])/, (g) => g.toLocaleUpperCase());
 	}
 
 	return {
 		fileName: `${kebabCase}.ts`,
-		className: pascalCase,
+		className: toPascalCase(name),
 	};
 }

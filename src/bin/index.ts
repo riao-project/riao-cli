@@ -8,12 +8,14 @@ import { MigrationRunCommand } from './migration-run-command';
 import { SchemaBuildCommand } from './schema-build-command';
 import { SeedCreateCommand } from './seed-create-command';
 import { SeedRunCommand } from './seed-run-command';
+import { ModelGenerateCommand } from './model-generate';
 
 new CommandDispatcher({
 	commands: [
 		DatabaseCreateCommand,
 		MigrationCreateCommand,
 		MigrationRunCommand,
+		ModelGenerateCommand,
 		SchemaBuildCommand,
 		SeedCreateCommand,
 		SeedRunCommand,
