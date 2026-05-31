@@ -4,5 +4,5 @@ export const dryRunOption: CommandOption = {
 	key: 'dry-run',
 	type: OptionType.boolean,
 	default: false,
-	description: 'Preview which migrations would run without executing them',
+	description: 'Preview which steps would run without executing them',
 };

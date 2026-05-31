@@ -44,7 +44,13 @@ export class MigrationRunCommand extends Command {
 
 			let alreadyRanNames: string[] = [];
 
-			try {
+			const schemaRepo = db.getSchemaQueryRepository();
+			const tables = await schemaRepo.getTables();
+			const migrationTableExists = tables.some(
+				(table) => table.name === 'riao_migration'
+			);
+
+			if (migrationTableExists) {
 				const repo = db.getQueryRepository();
 				const alreadyRan = await repo.find({
 					columns: ['name'],
@@ -53,9 +59,6 @@ export class MigrationRunCommand extends Command {
 				alreadyRanNames = alreadyRan.map(
 					(record) => record['name'] as string
 				);
-			}
-			catch {
-				// Migration table does not exist yet — all migrations are pending
 			}
 
 			let pendingMigrations: string[];
