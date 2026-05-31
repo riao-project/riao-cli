@@ -5,6 +5,7 @@ export {
 	dbDriverProperties,
 } from './db-type-option';
 export { directionOption } from './direction-option';
+export { dryRunOption } from './dry-run-option';
 export { nameOption } from './name-option';
 export { seedOption } from './seed-option';
 export { stepsOption } from './steps-option';
