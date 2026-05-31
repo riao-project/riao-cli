@@ -29,7 +29,7 @@ const outOption: CommandOption = {
 	key: 'out',
 	type: OptionType.string,
 	description: 'Output directory for generated types',
-	default: './test-types', // TODO: Change default
+	default: './src/models',
 };
 
 const moduleDepthOption: CommandOption = {
@@ -37,6 +37,12 @@ const moduleDepthOption: CommandOption = {
 	type: OptionType.number,
 	description: 'Number of parts in the table name to use as module path',
 	default: 1,
+};
+
+const queryRepositoryOption: CommandOption = {
+	key: 'queryRepository',
+	type: OptionType.string,
+	description: 'Path to output query repository files (optional)',
 };
 
 const typeMap: Record<ColumnType, string> = {
@@ -106,6 +112,7 @@ interface Args extends ParsedArguments {
 	database: string;
 	out: string;
 	moduleDepth: number;
+	queryRepository: null | string;
 }
 
 export class ModelGenerateCommand extends Command {
@@ -113,15 +120,22 @@ export class ModelGenerateCommand extends Command {
 	override description = 'Generate typescript models from migrations';
 
 	override positional = [];
-	override options = [databaseOption, outOption, moduleDepthOption];
+	override options = [
+		databaseOption,
+		outOption,
+		moduleDepthOption,
+		queryRepositoryOption,
+	];
 
 	protected outDir!: string;
 	protected moduleDepth!: number;
+	protected queryRepository: string | null = null;
 
 	override async handle(args: Args) {
 		this.outDir = path.resolve(process.cwd(), args.out);
 		fs.mkdirSync(this.outDir, { recursive: true });
 
+		this.queryRepository = args.queryRepository;
 		this.moduleDepth = args.moduleDepth;
 
 		const realDb = await loadDatabase(undefined, args.database);
@@ -152,12 +166,70 @@ export class ModelGenerateCommand extends Command {
 
 		for (const [tableName, columns] of Object.entries(mockDdl.tables)) {
 			console.log(`Generating types for table: ${tableName}`);
+			const interfaceName = toPascalCase(`${tableName}Record`);
+			const interfaceFilePath = this.getInterfaceFilePath(tableName);
 
-			const fileContent = this.generateInterface(tableName, columns);
-			this.saveTypesToFile(fileContent, tableName);
+			let interfaceFileContents = this.generateInterface({
+				interfaceName,
+				tableName,
+				columns,
+			});
+
+			if (this.queryRepository === 'inline') {
+				interfaceFileContents +=
+					'\n' +
+					this.generateQueryRepository({
+						interfaceName,
+						tableName,
+						columns,
+						db: realDb,
+					});
+			}
+			else if (this.queryRepository) {
+				const interfaceRelativeDir = path.dirname(
+					path.relative(this.outDir, interfaceFilePath)
+				);
+				const interfaceFilename = path.basename(
+					interfaceFilePath,
+					'.ts'
+				);
+				const repoFilename = `${interfaceFilename}-repository.ts`;
+				const repoFilepath = path.join(
+					this.queryRepository,
+					interfaceRelativeDir,
+					repoFilename
+				);
+
+				let interfaceImportPath = path
+					.relative(path.dirname(repoFilepath), interfaceFilePath)
+					.replace(/\\/g, '/')
+					.replace(/\.ts$/, '');
+
+				if (!interfaceImportPath.startsWith('.')) {
+					interfaceImportPath = `./${interfaceImportPath}`;
+				}
+
+				const repoContent =
+					`import { ${interfaceName} } from ` +
+					`'${interfaceImportPath}';\n\n` +
+					this.generateQueryRepository({
+						interfaceName,
+						tableName,
+						columns,
+						db: realDb,
+					});
+
+				this.saveTypesToFile(repoContent, repoFilepath);
+			}
+
+			this.saveTypesToFile(interfaceFileContents, interfaceFilePath);
 		}
 
 		this.generateIndexFiles(this.outDir);
+
+		if (this.queryRepository && this.queryRepository !== 'inline') {
+			this.generateIndexFiles(this.queryRepository);
+		}
 
 		console.log('Types generated successfully.');
 	}
@@ -208,19 +280,45 @@ export class ModelGenerateCommand extends Command {
 		return `\t${options.name}${options.required ? '' : '?'}: ${tsType};`;
 	}
 
-	protected generateInterface(
-		tableName: string,
-		columns: ColumnOptions[]
-	): string {
-		const interfaceName = toPascalCase(`${tableName}Record`);
-		const properties = columns
+	protected generateInterface(options: {
+		interfaceName: string;
+		tableName: string;
+		columns: ColumnOptions[];
+	}): string {
+		const properties = options.columns
 			.map((col) => this.generateProperty(col))
 			.join('\n');
 
-		return `export interface ${interfaceName} {\n${properties}\n}\n`;
+		return (
+			`export interface ${options.interfaceName} ` +
+			`{\n${properties}\n}\n`
+		);
 	}
 
-	protected saveTypesToFile(types: string, tableName: string): void {
+	protected generateQueryRepository(options: {
+		interfaceName: string;
+		tableName: string;
+		columns: ColumnOptions[];
+		db: Database;
+	}): string {
+		const className = toPascalCase(`${options.tableName}Repository`);
+		const idColumn = options.columns.find((col) => col.primaryKey);
+		const dbVar = options.db.name + 'db';
+
+		return (
+			`import { ${dbVar} } from ` +
+			`'@/database/${options.db.name}';` +
+			'\n\n' +
+			`export const ${className} = ` +
+			`${dbVar}.getQueryRepository<${options.interfaceName}>` +
+			'({\n' +
+			`\ttable: '${options.tableName}',\n` +
+			`\tidentifiedBy: '${idColumn?.name}'\n` +
+			'});\n'
+		);
+	}
+
+	protected getInterfaceFilePath(tableName: string): string {
 		const parts = tableName.split('_');
 
 		const splitIndex = Math.min(
@@ -236,11 +334,14 @@ export class ModelGenerateCommand extends Command {
 		}
 
 		const fileName = `${fileParts.join('-')}.ts`;
-		const dirPath = path.join(this.outDir, ...moduleParts);
+		return path.join(this.outDir, ...moduleParts, fileName);
+	}
+
+	protected saveTypesToFile(types: string, filePath: string): void {
+		const dirPath = path.dirname(filePath);
 
 		fs.mkdirSync(dirPath, { recursive: true });
 
-		const filePath = path.join(dirPath, fileName);
 		fs.writeFileSync(filePath, types, 'utf-8');
 		console.log(`Types saved to ${filePath}`);
 	}
