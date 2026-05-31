@@ -29,7 +29,7 @@ const outOption: CommandOption = {
 	key: 'out',
 	type: OptionType.string,
 	description: 'Output directory for generated types',
-	default: './test-types', // TODO: Change default
+	default: './src/models',
 };
 
 const moduleDepthOption: CommandOption = {
