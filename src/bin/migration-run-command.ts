@@ -60,6 +60,10 @@ export class MigrationRunCommand extends Command {
 					(record) => record['name'] as string
 				);
 			}
+			else {
+				// eslint-disable-next-line no-console
+				console.log('[Dry Run] No migrations have been run yet.');
+			}
 
 			let pendingMigrations: string[];
 
