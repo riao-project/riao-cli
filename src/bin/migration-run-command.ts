@@ -1,12 +1,18 @@
 import { Command, ParsedArguments } from 'ts-commands';
 import { MigrationRunner } from '@riao/dbal/migration';
 import { loadDatabase } from '@riao/dbal/database';
-import { databaseOption, directionOption, stepsOption } from '../options';
+import {
+	databaseOption,
+	directionOption,
+	dryRunOption,
+	stepsOption,
+} from '../options';
 
 interface Args extends ParsedArguments {
 	database: string;
 	direction: 'up' | 'down';
 	steps: number;
+	dryRun: boolean;
 }
 
 export class MigrationRunCommand extends Command {
@@ -15,7 +21,12 @@ export class MigrationRunCommand extends Command {
 
 	override positional = [];
 
-	override options = [databaseOption, directionOption, stepsOption];
+	override options = [
+		databaseOption,
+		directionOption,
+		stepsOption,
+		dryRunOption,
+	];
 
 	override async handle(args: Args) {
 		const db = await loadDatabase(undefined, args.database);
